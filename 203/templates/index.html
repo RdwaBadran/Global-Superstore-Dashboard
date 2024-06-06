@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Meta information -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rody's Dashboard</title>
+
+    <!-- AmCharts library scripts -->
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/charts.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
+    <!-- Custom chart scripts -->
+    <script src="{{ url_for('static', filename='charts.js') }}"></script>
+
+    <!-- Custom stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Internal styling -->
+    <style>
+        /* CSS styling for the document */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .sidebar h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+        .sidebar nav {
+            flex: 1;
+        }
+
+        .sidebar nav a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar nav a:hover,
+        .sidebar nav a.active {
+            background-color: #1d84a9;
+        }
+
+        /* Content container styling */
+        .content {
+            margin-left: 250px;
+            display: flex;
+            flex-direction: column;
+            width: calc(100% - 250px);
+            height: 100vh;
+        }
+
+        /* Header styling */
+        header {
+            background-color: #1d84a9;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            flex: 0 0 80px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+
+        /* Main content styling */
+        main {
+            padding: 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* Section styling using CSS grid */
+        section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+
+        /* Card styling for individual charts */
+        .card {
+            background-color: white;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        .card h2 {
+            font-size: 1.5em;
+            margin-top: 0;
+        }
+
+        /* Footer styling */
+        footer {
+            background-color: #2c3033;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            flex: 0 0 60px;
+        }
+
+        @media (max-width: 600px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                padding: 10px;
+                position: relative;
+                box-shadow: none;
+            }
+
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            header, main, footer {
+                width: 100%;
+            }
+
+            main {
+                padding: 10px;
+            }
+
+            section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar for navigation -->
+    <div class="sidebar">
+        <h2>Dashboard Menu</h2>
+        <nav>
+            <a href="#chart2" class="active">Countries</a>
+            <a href="#chart3">Positive States</a>
+            <a href="#chart4">Negative States</a>
+            <a href="#chart5">Best Sub Categories</a>
+            <a href="#chart6">Highest Selling Products</a>
+            <a href="#chart7">Age</a>
+            <a href="#chart8">Monthly Total Sales</a>
+            <a href="#chart9">Gender</a>
+        </nav>
+    </div>
+
+    <!-- Main content area -->
+    <div class="content">
+        <header>
+            <h1>Global SuperStore Dashboard</h1>
+        </header>
+
+        <main>
+            <section id="charts">
+                <!-- Each card represents a chart -->
+                <div class="card" id="chart2">
+                    <h2>Top 3 Highest Profitable Countries</h2>
+                    <div id="chartdiv2"></div>
+                </div>
+
+                <div class="card" id="chart3" style="display:none;">
+                    <h2>Top 10 Most Selling States</h2>
+                    <div id="chartdiv3"></div>
+                </div>
+
+                <div class="card" id="chart4" style="display:none;">
+                    <h2>Lowest Selling States In USA</h2>
+                    <div id="chartdiv4"></div>
+                </div>
+
+                <div class="card" id="chart5" style="display:none;">
+                    <h2>Top 5 Profitable Sub Categories</h2>
+                    <div id="chartdiv5"></div>
+                </div>
+
+                <div class="card" id="chart6" style="display:none;">
+                    <h2>Most Selling Products Globally</h2>
+                    <div id="chartdivline"></div>
+                </div>
+
+                <div class="card" id="chart7" style="display:none;">
+                    <h2>Distribution of Age Based on Revenue</h2>
+                    <div id="chartdivline2"></div>
+                </div>
+
+                <div class="card" id="chart8" style="display:none;">
+                    <h2>Sales Revenue For Each Month</h2>
+                    <div id="chartdivline3"></div>
+                </div>
+
+                <div class="card" id="chart9" style="display:none;">
+                    <h2>Most Effective Gender IN Profit Positively</h2>
+                    <div id="chartdivpie"></div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2024 SuperStore</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript for navigation and chart display -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.sidebar nav a');
+            const charts = document.querySelectorAll('.card');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    this.classList.add('active');
+
+                    charts.forEach(chart => chart.style.display = 'none');
+                    target.style.display = 'block';
+                });
+            });
+
+            // Initially display the first chart
+            charts[0].style.display = 'block';
+        });
+    </script>
+</body>
+
+</html>

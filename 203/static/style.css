@@ -1,0 +1,49 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background-color: #000000;
+    color: #000000;
+    padding: 15px;
+    text-align: center;
+    display: flex;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 0.2fr 1fr;
+    grid-template-areas:
+        "header header header"
+        "header header header"
+
+        "left right right";
+    height: 100vh;
+}
+
+.left {
+    grid-area: left;
+}
+
+.right {
+    grid-area: right;
+}
+
+#chartdivpie,
+#chartdiv,
+#chartdiv2,
+#chartdiv3,
+#chartdiv4,
+#chartdiv5,
+#chartdivline,
+#chartdivline2,
+#chartdivline3
+
+{
+    width: 100%;
+    height: 300px;
+    margin: 10px;
+}
